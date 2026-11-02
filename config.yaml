@@ -1,0 +1,59 @@
+# Paper is the default. Charge rates below are intentionally blank: fill and
+# verify them before replay/paper/live trading. No financial rates are guessed.
+mode: paper
+ws_url: "" # TODO: provider endpoint and subscription adapter
+instruments:
+  - symbol: BANKNIFTY-Nov2026-FUT
+    exchange: NSE
+    segment: futures
+    security_id: "61466" # confirm against the instrument master
+    book_levels: 20
+    tick_size: 0 # TODO: verify against instrument master before slippage_ticks > 0
+    strategies:
+      - id: bank_momentum
+        kind: momentum_vol
+        enabled: true
+        # Optional cross-ticker filter (publisher must be configured):
+        # require_signals:
+        #   - strategy_id: other_book_context
+        #     symbol: OTHER-SYMBOL
+        #     name: book_imbalance
+        #     min: -0.2
+        #     max: 1.0
+      - id: bank_context
+        kind: book_context
+        enabled: true
+qty: 30
+trail_sl_rupees: 300
+target_extra_rupees: 150
+vol_window_s: 60
+vol_entry_pctile: 80
+baseline_sessions: 5
+mom_window_s: 10
+mom_threshold: 0.001
+max_spread: 2
+cooldown_s: 30
+square_off_time: "15:20"
+sim_latency_ms: 200
+slippage_ticks: 0
+flush_interval_s: 5
+flush_rows: 10000
+data_dir: data
+risk:
+  max_daily_loss: 3000
+  max_position_qty: 30
+  max_trades_per_min: 2
+  max_trades_per_day: 20
+  stale_after_s: 5
+charges_verified: false
+charges:
+  futures:
+    brokerage_per_order: 0 # TODO: rupees
+    stt_buy: 0              # TODO: fraction of buy notional
+    stt_sell: 0             # TODO: fraction of sell notional
+    ctt_buy: 0              # TODO
+    ctt_sell: 0             # TODO
+    exchange: 0             # TODO: fraction of notional
+    sebi: 0                 # TODO: fraction of notional
+    gst: 0                  # TODO: fraction of applicable fees
+    stamp_buy: 0            # TODO: fraction of buy notional
